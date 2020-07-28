@@ -44,8 +44,8 @@ const LoginPage = (props) => {
 
 
     return (
-        <div>
-        <div class="body-wrapper">
+        <div >
+        <div class="body-wrapper" style={{overflow: "hidden"}}>
     <div class="main-wrapper">
       <div class="page-wrapper full-page-wrapper d-flex align-items-center justify-content-center">
         <main class="auth-page">

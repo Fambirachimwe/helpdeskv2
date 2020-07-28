@@ -5,6 +5,7 @@ import {BrowserRouter as Router, Route, NavLink, Link, Switch} from 'react-route
 import {connect} from 'react-redux';
 import MyTickets from './components/mytickets.component'
 import loginPage from './pages/login.pages';
+import Register from './pages/register.pages';
 
 import PopUp from './components/popup.component'
 
@@ -27,9 +28,15 @@ class App extends React.Component{
       <div className="App">
         
         <Router>
+        <Switch>
+            <Route  path="/login" component={loginPage} />
+            <Route path="/register" component={Register} />
+          
+          
           <div className="body-wrapper">
 
-          <Route exact path="/login" component={loginPage} />
+          
+          
           <Router />
           <aside className="mdc-drawer mdc-drawer--dismissible mdc-drawer--open">
             <div className="mdc-drawer__header">
@@ -351,11 +358,11 @@ class App extends React.Component{
   
                 {/* <MyTickets /> */}
 
-                <Switch>
+               
                   <Route exact path='/' component={MyTickets} />
                   
                   <Route  exact path='/add' component={AddTicket} />
-                </Switch>
+               
 
                 
        
@@ -363,6 +370,7 @@ class App extends React.Component{
             </div>
           </div>
         </div>
+        </Switch>
         </Router>
       </div>
     );
