@@ -51,7 +51,7 @@ const AddTicket = (props) => {
             <h5 className="text-left">Add New Ticket</h5>
             <div>
              
-                    <form >
+                    <form onSubmit={handleSubmit} >
                         <div className="form-group">
                             <label htmlFor="exampleInputEmail1">Title</label>
                             <input type="text" value={title} onChange={handleTitle} className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" />

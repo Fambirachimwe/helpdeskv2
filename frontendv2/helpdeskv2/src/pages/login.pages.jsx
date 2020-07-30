@@ -24,12 +24,14 @@ const LoginPage = (props) => {
         event.preventDefault();
         axios.post('http://127.0.0.1:4000/user/login', { username, password }).then(data => {
             if(data.data) {
-                console.log(data.data.role);
+                console.log(data.data.user);
+
+                // dispatch user to the redux state
 
                 const locaStorage = window.localStorage;
                 locaStorage.setItem('token', data.data.token);
                
-                props.isAuth();  // dispatching action  to redux state a
+                props.isAuth(data.data.user);  // dispatching action  to redux state a
 
                 if(data.data.role === 'User'){
                     props.history.push('/');
@@ -47,56 +49,56 @@ const LoginPage = (props) => {
 
     return (
         <div >
-          <div class="body-wrapper" style={{overflow: "hidden"}}>
-            <div class="main-wrapper">
-              <div class="page-wrapper full-page-wrapper d-flex align-items-center justify-content-center">
-                <main class="auth-page">
-                  <div class="mdc-layout-grid">
-                    <div class="mdc-layout-grid__inner">
-                      <div class="stretch-card mdc-layout-grid__cell--span-4-desktop mdc-layout-grid__cell--span-1-tablet"></div>
-                      <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-4-desktop mdc-layout-grid__cell--span-6-tablet">
-                        <div class="mdc-card">
+          <div className="body-wrapper" style={{overflow: "hidden"}}>
+            <div className="main-wrapper">
+              <div className="page-wrapper full-page-wrapper d-flex align-items-center justify-content-center">
+                <main className="auth-page">
+                  <div className="mdc-layout-grid">
+                    <div className="mdc-layout-grid__inner">
+                      <div className="stretch-card mdc-layout-grid__cell--span-4-desktop mdc-layout-grid__cell--span-1-tablet"></div>
+                      <div className="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-4-desktop mdc-layout-grid__cell--span-6-tablet">
+                        <div className="mdc-card">
                           <form onSubmit={handleSubmit}>
-                            <div class="mdc-layout-grid">
-                              <div class="mdc-layout-grid__inner">
-                                <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-12">
-                                  <div class="mdc-text-field w-100">
-                                    <input class="mdc-text-field__input" id="text-field-hero-input" onChange={handleChangeUsername} value={username} />
-                                    <div class="mdc-line-ripple"></div>
-                                    <label for="text-field-hero-input" class="mdc-floating-label">Username</label>
+                            <div className="mdc-layout-grid">
+                              <div className="mdc-layout-grid__inner">
+                                <div className="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-12">
+                                  <div className="mdc-text-field w-100">
+                                    <input className="mdc-text-field__input" id="text-field-hero-input" onChange={handleChangeUsername} value={username} />
+                                    <div className="mdc-line-ripple"></div>
+                                    <label htmlFor="text-field-hero-input" className="mdc-floating-label">Username</label>
                                   </div>
                                 </div>
-                                <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-12">
-                                  <div class="mdc-text-field w-100">
-                                    <input class="mdc-text-field__input" value={password} onChange={handleChangePassword} type="password" id="text-field-hero-input" />
-                                    <div class="mdc-line-ripple"></div>
-                                    <label for="text-field-hero-input" class="mdc-floating-label">Password</label>
+                                <div className="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-12">
+                                  <div className="mdc-text-field w-100">
+                                    <input className="mdc-text-field__input" value={password} onChange={handleChangePassword} type="password" id="text-field-hero-input" />
+                                    <div className="mdc-line-ripple"></div>
+                                    <label htmlFor="text-field-hero-input" className="mdc-floating-label">Password</label>
                                   </div>
                                 </div>
-                                <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-6-desktop">
-                                  <div class="mdc-form-field">
-                                    <div class="mdc-checkbox">
+                                <div className="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-6-desktop">
+                                  <div className="mdc-form-field">
+                                    <div className="mdc-checkbox">
                                       <input type="checkbox"
-                                              class="mdc-checkbox__native-control"
+                                              className="mdc-checkbox__native-control"
                                               id="checkbox-1"/>
-                                      <div class="mdc-checkbox__background">
-                                        <svg class="mdc-checkbox__checkmark"
+                                      <div className="mdc-checkbox__background">
+                                        <svg className="mdc-checkbox__checkmark"
                                               viewBox="0 0 24 24">
-                                          <path class="mdc-checkbox__checkmark-path"
+                                          <path className="mdc-checkbox__checkmark-path"
                                                 fill="none"
                                                 d="M1.73,12.91 8.1,19.28 22.79,4.59"/>
                                         </svg>
-                                        <div class="mdc-checkbox__mixedmark"></div>
+                                        <div className="mdc-checkbox__mixedmark"></div>
                                       </div>
                                     </div>
-                                    <label for="checkbox-1">Remember me</label>
+                                    <label htmlFor="checkbox-1">Remember me</label>
                                   </div>
                                 </div>
-                                <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-6-desktop d-flex align-items-center justify-content-end">
+                                <div className="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-6-desktop d-flex align-items-center justify-content-end">
                                   <a href="#">Forgot Password</a>
                                 </div>
-                                <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-12">
-                                  <button type="submit" class="mdc-button mdc-button--raised w-100">
+                                <div className="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-12">
+                                  <button type="submit" className="mdc-button mdc-button--raised w-100">
                                     Login
                                   </button>
                                 </div>
@@ -105,7 +107,7 @@ const LoginPage = (props) => {
                           </form>
                         </div>
                       </div>
-                      <div class="stretch-card mdc-layout-grid__cell--span-4-desktop mdc-layout-grid__cell--span-1-tablet"></div>
+                      <div className="stretch-card mdc-layout-grid__cell--span-4-desktop mdc-layout-grid__cell--span-1-tablet"></div>
                     </div>
                   </div>
                 </main>
@@ -127,7 +129,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-      isAuth: () => {dispatch({type: "LOGGED_IN", isAuth: true})}
+      isAuth: (user) => {dispatch({type: "LOGGED_IN", isAuth: true, user: user})}
     }
 }
 

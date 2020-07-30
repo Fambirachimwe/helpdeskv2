@@ -3,7 +3,8 @@ import storage from 'redux-persist/lib/storage';
 
 const initState = {
     isAuth : false,
-    tickets: []
+    tickets: [],
+    user: null
 }
 
 
@@ -18,7 +19,8 @@ const rootReducer = (state=initState, action) => {
     if(action.type === 'LOGGED_IN'){
         return {
             ...state,
-            isAuth: action.isAuth
+            isAuth: action.isAuth, 
+            user: action.user
         }
     }
 

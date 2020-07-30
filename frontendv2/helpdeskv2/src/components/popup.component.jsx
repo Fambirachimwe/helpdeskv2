@@ -1,5 +1,6 @@
-import React, {useState} from 'react';
-import {Link} from 'react-router-dom';
+import React from 'react';
+import {Link, withRouter} from 'react-router-dom';
+import { handleLogOut} from '../util/util'
 
 
 const Pstyles = {
@@ -19,7 +20,8 @@ const listStyles = {
     "left": "100px"
 }
 
-const PopUp = ({click}) => {
+
+const PopUp = ({click, history}) => {
     
 
     return (
@@ -40,7 +42,9 @@ const PopUp = ({click}) => {
                     <div className="item-thumbnail item-thumbnail-icon-only">
                         <i className="mdi mdi-logout-variant text-primary"></i>
                     </div>
-                    <div className="item-content d-flex align-items-start flex-column justify-content-center">
+                    <div className="item-content d-flex align-items-start flex-column justify-content-center" onClick={() => {handleLogOut();
+                            history.push('/login')
+                        }}>
                         <h6 className="item-subject font-weight-normal"><Link to="/login">Logout</Link></h6>
                     </div>
                 </li>
@@ -53,4 +57,4 @@ const PopUp = ({click}) => {
 
 };
 
-export default PopUp;
+export default withRouter(PopUp);
