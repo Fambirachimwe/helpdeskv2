@@ -4,7 +4,7 @@ import {handleLogOut} from '../util/util';
 import {connect} from 'react-redux';
 
 
-const SideNav = ({history, user}) => (
+const SideNav = ({history, user, isAuth}) => (
 
     <aside className="mdc-drawer mdc-drawer--dismissible mdc-drawer--open">
         <div className="mdc-drawer__header">
@@ -14,8 +14,9 @@ const SideNav = ({history, user}) => (
         </div>
         <div className="mdc-drawer__content">
             <div className="user-info">
-                <p className="name">{user.username}</p>
-                <p className="email">{user.email}</p>
+                
+                <p className="name">{user ? (user.username) : (null)}</p>
+                <p className="email">{user ? (user.email): (null)}</p>
             </div>
             <div className="mdc-list-group">
                 <nav className="mdc-list mdc-drawer-menu">

@@ -5,6 +5,7 @@ import loginPage from './pages/login.pages';
 import Register from './pages/register.pages';
 import ProtectedRoute from './components/protectedRoute';
 import {getToken} from './util/util';
+import axios from "axios";
 
 import AppRoute from './components/AppRoute.component';
 
@@ -18,9 +19,24 @@ class App extends React.Component {
   }
 
   componentDidMount(){
-    console.log(getToken())
+    // console.log(getToken());
+    const token = getToken();
     if(getToken()){
-      this.props.isAuth()  
+       
+      const DecodeJWT= (token) => {
+        try {
+          return JSON.parse(atob(token.split('.')[1]));
+        } catch (e) {
+          return null;
+        }
+      };
+      // console.log(DecodeJWT(token))  // decodec the token
+      axios.post("http://127.0.0.1:4000/user/verify", {id: DecodeJWT(token).id}).then(data => {
+        // here dispatch user object here
+        // this.props.isAuth(user); 
+        // console.log(data.data.user[0])
+        this.props.isAuth(data.data.user[0]);
+      }) 
     }
   }
 
@@ -71,7 +87,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    isAuth: () => {dispatch({type: "LOGGED_IN", isAuth: true})}
+    isAuth: (user) => {dispatch({type: "LOGGED_IN", isAuth: true, user: user})}
   }
 }
 

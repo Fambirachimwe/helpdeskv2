@@ -8,6 +8,7 @@ const initState = {
 }
 
 
+
 const persistConfig = {
     key: "root",
     storage,
@@ -56,7 +57,7 @@ const rootReducer = (state=initState, action) => {
     }
 
 };
+export const pReducer = persistReducer(persistConfig ,rootReducer);
 
-export default persistReducer(persistConfig ,rootReducer);
 
 

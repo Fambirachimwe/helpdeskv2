@@ -12,7 +12,7 @@ const TopHeader = ({click, handleClick, user}) => (
                 <button className="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button sidebar-toggler">
                     menu
                       </button>
-                <span className="mdc-top-app-bar__title">Greetings Clyde!</span>
+            <span className="mdc-top-app-bar__title">Greetings {user ? (user.username) : (null)}!</span>
                 <div className="mdc-text-field mdc-text-field--outlined mdc-text-field--with-leading-icon search-text-field d-none d-md-flex">
                     <i className="material-icons mdc-text-field__icon">search</i>
                     <input
@@ -44,7 +44,7 @@ const TopHeader = ({click, handleClick, user}) => (
                                     className="user"
                                 />
                             </span>
-                            <span className="user-name">Clyde Miles</span>
+                    <span className="user-name">{user ? (user.username) : (null)}</span>
                         </span>
                     </button>
                     <div className="mdc-menu mdc-menu-surface" tabIndex="-1">

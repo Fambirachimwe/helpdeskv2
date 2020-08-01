@@ -1,6 +1,7 @@
 import React, {useState}  from 'react';
 import {getToken} from '../util/util';
 import axios from 'axios';
+import {connect} from 'react-redux';
 
 const AddTicket = (props) => {
 
@@ -78,5 +79,11 @@ const AddTicket = (props) => {
 
 };
 
+const mapDispatchToProps = (dispatch) => {
+    return {
+        updateState : (data) => {dispatch ({type: "UPDATE_STATE", ticket: data})}
+    }
+}
 
-export default AddTicket;
+
+export default connect(null, mapDispatchToProps)(AddTicket);
