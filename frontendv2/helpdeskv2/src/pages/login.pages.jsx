@@ -38,8 +38,7 @@ const LoginPage = (props) => {
                 } else {
                     props.history.push('/admin')
                 }
-                // console.log('token sent to the frontend')
-                // console.log(isAuthenticated())
+                
             }
     
         });

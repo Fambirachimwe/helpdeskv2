@@ -78,6 +78,11 @@ const AddTicket = (props) => {
     
 
 };
+const mapStateToProps = (state) => {
+    return {
+        ...state
+    }
+}
 
 const mapDispatchToProps = (dispatch) => {
     return {
@@ -86,4 +91,4 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 
-export default connect(null, mapDispatchToProps)(AddTicket);
+export default connect(mapStateToProps, mapDispatchToProps)(AddTicket);
