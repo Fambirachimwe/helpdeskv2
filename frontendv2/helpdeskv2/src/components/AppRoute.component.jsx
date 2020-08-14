@@ -62,6 +62,6 @@ const mapDispatchToProps = (dispatch) => {
       getTickets: (data) => { dispatch ({ type: "GET_USER_TICKETS", tickets: data})},
      
     }
-  }
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(AppRoute);

@@ -45,7 +45,7 @@ const TicketDetail = ({ tickets }) => {
                 <Typography variant="body2" component="p">
                     {}
                 <br />
-                <span className="badge badge-warning">{tickets.status}</span>
+                <span className="badge badge-warning">{tickets ? tickets.status : null }</span>
                 </Typography>
             </CardContent>
             

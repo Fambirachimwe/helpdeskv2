@@ -6,6 +6,7 @@ import Register from './pages/register.pages';
 import ProtectedRoute from './components/protectedRoute';
 import {getToken} from './util/util';
 import axios from "axios";
+import AdminPage from './components/admin.component'
 
 import AppRoute from './components/AppRoute.component';
 
@@ -54,6 +55,7 @@ class App extends React.Component {
           <Switch>
             <Route exact path="/login" component={loginPage} />
             <Route exact path="/register" component={Register} />
+            <Route exact path="/admin" component={AdminPage} />
             
             {/* app rout to be a protected component */}
 
