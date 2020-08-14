@@ -3,13 +3,17 @@ import { Link, NavLink, withRouter } from 'react-router-dom';
 import {handleLogOut} from '../util/util';
 import {connect} from 'react-redux';
 
+const styles = {
+    "text-decoration": "none",
+    "color": "#fff"
+}
 
 const SideNav = ({history, user, isAuth}) => (
 
     <aside className="mdc-drawer mdc-drawer--dismissible mdc-drawer--open">
         <div className="mdc-drawer__header">
-            <Link to="/" className="brand-logo">
-                <img src="../../../assets/images/logo.svg" alt="logo" />
+            <Link to="/" className="brand-logo" style={styles}>
+                <h3>Doves Helpdesk </h3>
             </Link>
         </div>
         <div className="mdc-drawer__content">
@@ -55,7 +59,7 @@ const SideNav = ({history, user, isAuth}) => (
                                 dashboard
                       </i>
                       Knowledge
-                      {/* <i className="mdc-drawer-arrow material-icons">chevron_right</i> */}
+                    
                         </Link>
                     </div>
                 </nav>

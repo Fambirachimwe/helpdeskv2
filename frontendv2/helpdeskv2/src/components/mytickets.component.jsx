@@ -26,7 +26,7 @@ const MyTickets = ({tickets}) => (
                                     <td className="text-left"> <Link to={`/${ticket._id}`}>{ticket._id}</Link></td>
                                     <td className="text-left">{ticket.title}</td>
                                     <td>{ticket.priority}</td>
-                                    <td><span class="badge badge-warning">{ticket.status}</span></td>    
+                                    <td><span className="badge badge-warning">{ticket.status}</span></td>    
                                 </tr>
                             ))
                             ) : (null)
