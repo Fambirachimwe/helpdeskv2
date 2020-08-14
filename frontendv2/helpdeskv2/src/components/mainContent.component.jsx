@@ -12,13 +12,17 @@ const MainContent = ({user}) => (
     <main className="content-wrapper">
         
         <Switch>
-            <Route exact path='/add' component={AddTicket} />
+            
 
             {
-                user ? user.role === "User" ? ( <Route exact path="/:id" component={TicketDetail} /> ) : null : null
+                user ? user.role === "User" ? ( 
+                    <Route exact path="/:id" component={TicketDetail} />,
+                    <Route exact path='/' component={MyTickets} />,
+                    <Route exact path='/add' component={AddTicket} /> 
+                 ) : null : null
             }
             
-            <Route exact path='/' component={MyTickets} />
+            
             
         </Switch>
        

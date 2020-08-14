@@ -3,31 +3,57 @@ import MainContent from './mainContent.component';
 import TopHeader from "./TopHeader.component";
 import SideNav from "./sideNav.componet";
 import { connect } from 'react-redux';
+import axios from 'axios';
+import  { getToken } from "../util/util";
 
-const AdminPage = ({isAuth}) => {
-    return (
-        <div className="body-wrapper">
+class AdminPage extends React.Component {
+    
+    componentDidMount(){
 
-            <SideNav />
+        if(getToken()){
+            const config = {
+                headers: {
+                  "X-Auth-Token": getToken()
+                }
+            }
+            
+            axios.get("http://127.0.0.1:4000/app/tickets", config).then(data => {
+                this.props.getTickets(data.data.tickets);
+            });
+    
+        }
 
-            <div className="main-wrapper mdc-drawer-app-content">
+        
+    }
 
-                {/* top header navbar */}
-                <TopHeader />
+    render() {
+        const { isAuth } = this.props;
+        return (
+            <div className="body-wrapper">
 
-                <div className="page-wrapper mdc-toolbar-fixed-adjust">
+                <SideNav />
 
-                    {/* main content wrapper component here */}
+                <div className="main-wrapper mdc-drawer-app-content">
 
-                    <MainContent isAuth={isAuth} />
-                    
+                    {/* top header navbar */}
+                    <TopHeader />
+
+                    <div className="page-wrapper mdc-toolbar-fixed-adjust">
+
+                        {/* main content wrapper component here */}
+
+                        <MainContent isAuth={isAuth} />
+
+                    </div>
                 </div>
             </div>
-        </div>
-    )
+        )
+    }
+
+
 }
 
-const mapStateToProps = (state ) => {
+const mapStateToProps = (state) => {
     return {
         ...state
     }
@@ -35,8 +61,8 @@ const mapStateToProps = (state ) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-      getTickets: (data) => { dispatch ({ type: "GET_USER_TICKETS", tickets: data})},
-     
+        getTickets: (data) => { dispatch({ type: "GET_USER_TICKETS", tickets: data }) },
+
     }
 }
 
