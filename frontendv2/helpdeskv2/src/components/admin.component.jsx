@@ -20,11 +20,15 @@ class AdminPage extends React.Component {
             axios.get("http://127.0.0.1:4000/app/tickets", config).then(data => {
                 this.props.getTickets(data.data.tickets);
             });
-    
-        }
 
-        
+            axios.get("http://127.0.0.1:4000/user/users", config ).then(data => {
+                this.props.getUsers(data.data.users)
+            });
+    
+        }  
     }
+
+    
 
     render() {
         const { isAuth } = this.props;
@@ -42,7 +46,7 @@ class AdminPage extends React.Component {
 
                         {/* main content wrapper component here */}
 
-                        <MainContent isAuth={isAuth} />
+                        <MainContent isAuth={isAuth}  />
 
                     </div>
                 </div>
@@ -62,6 +66,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         getTickets: (data) => { dispatch({ type: "GET_USER_TICKETS", tickets: data }) },
+        getUsers: (data) => {dispatch({type: "GET_USERS", users:data  })}
 
     }
 }

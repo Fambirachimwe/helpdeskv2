@@ -4,7 +4,8 @@ import storage from 'redux-persist/lib/storage';
 const initState = {
     isAuth : false,
     tickets: [],
-    user: null
+    user: null,
+    users: []
 }
 
 
@@ -38,10 +39,17 @@ const rootReducer = (state=initState, action) => {
             tickets: action.tickets
         }
     }
+    
+    if(action.type === "GET_USERS"){
+        return {
+             ...state,
+             users: action.users
+        }
+    }
 
 
     if(action.type === 'UPDATE_STATE'){
-        console.log(state.tickets)
+        // console.log(state.tickets)
         if(state.tickets === undefined){
             return {
                 ...state,

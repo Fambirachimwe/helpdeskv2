@@ -10,6 +10,9 @@ import AdminPage from './components/admin.component'
 
 import AppRoute from './components/AppRoute.component';
 
+
+
+
 class App extends React.Component {
 
   constructor(props) {
@@ -20,7 +23,13 @@ class App extends React.Component {
   }
 
   componentDidMount(){
-    // console.log(getToken());
+    
+    // const endpoint = "http://127.0.0.1:4000";
+
+    // const socket = socketIOClient(endpoint);
+
+    
+
     const token = getToken();
     if(getToken()){
        

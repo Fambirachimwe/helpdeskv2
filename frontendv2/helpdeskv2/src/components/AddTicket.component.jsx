@@ -3,6 +3,11 @@ import {getToken} from '../util/util';
 import axios from 'axios';
 import {connect} from 'react-redux';
 
+// socket io
+import socketIOClient from "socket.io-client";
+const endpoint = "http://127.0.0.1:4000";
+const socket = socketIOClient(endpoint);
+
 const AddTicket = (props) => {
 
     const [title, setTitle] = useState("");
@@ -39,7 +44,11 @@ const AddTicket = (props) => {
             }
         }).then(data => {
             // console.log(data);
+                // emit a socket event 
+
+                
                 props.updateState(data.data.data); 
+                socket.emit("update", token);
                 alert('ticket added sucessfully ');
                 setTitle("");
                 setDescription("")

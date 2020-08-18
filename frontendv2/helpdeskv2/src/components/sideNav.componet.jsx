@@ -40,7 +40,7 @@ const SideNav = ({ history, user, isAuth }) => (
                                 <div className="mdc-list-item mdc-drawer-item">
                                     <NavLink className="mdc-drawer-link" to="/add">
                                         <i className="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true" > track_changes</i>
-                                
+                                            Add Ticket
                                         </NavLink>
                                 </div>
 
