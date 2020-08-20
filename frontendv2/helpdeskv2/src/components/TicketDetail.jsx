@@ -27,9 +27,13 @@ const useStyles = makeStyles({
 });
 
 
-const TicketDetail = ({ tickets }) => {
+const TicketDetail = ({ tickets, user }) => {
     const classes = useStyles();
     const bull = <span className={classes.bullet}>•</span>;
+
+
+    
+
     return (
         <Card className={classes.root}>
             <CardContent>

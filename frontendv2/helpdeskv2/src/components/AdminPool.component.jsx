@@ -1,16 +1,48 @@
 import React from 'react'
-
 import { connect } from 'react-redux';
-
-import { Link } from 'react-router-dom';
-
+import { Link, withRouter } from 'react-router-dom';
+import {STATUS, getToken} from "../util/util"
 // socket io client 
 import socketIOClient from "socket.io-client";
+import axios from 'axios';
+
 const endpoint = "http://127.0.0.1:4000";
 const socket = socketIOClient(endpoint);
 
 
-const AdminPool = ({ tickets, getTickets }) => {
+
+const AdminPool = ({ tickets, getTickets, history }) => {
+
+
+    const visibilityClick = (ticketId) => {
+        // change the status of the thicket if not opened 
+        // update to the database .. send api request to the backend to change the status
+    
+        // after the update to the database emit an event using socket io to dispatch the ne update to the store
+    
+        // redirect to the detail page of the ticket 
+        
+        
+        const ticket = tickets.find(ticket => ticket._id === ticketId);
+        if(ticket.status === STATUS.PENDING){
+            const token = getToken();
+            const config = {
+                headers: {
+                  "X-Auth-Token": token
+                }
+              }
+            // send an api request to the backend to update the ticket status in the database
+            axios.put("http://127.0.0.1:4000/app/tickets", {id: ticketId}).then(data => {
+                // console.log(data)
+                socket.emit("update", token);
+
+                // history.push(`/admin/${ticketId}`)
+            })
+        } else {
+            // history.push(`/admin/${ticketId}`)
+        }       
+    }
+
 
     socket.on('test', (dt) => {
         console.log(dt)
@@ -43,11 +75,11 @@ const AdminPool = ({ tickets, getTickets }) => {
                                     tickets.map(ticket => (
 
                                         <tr key={ticket._id}>
-                                            <td className="text-left"> <Link to={`/${ticket._id}`}>{ticket._id}</Link></td>
+                                            <td className="text-left"> <Link to={`/admin/${ticket._id}`}>{ticket._id}</Link></td>
                                             <td className="text-left">{ticket.title}</td>
                                             <td>{ticket.priority}</td>
-                                            <td><span className="badge badge-warning">{ticket.status}</span></td>
-                                            <td><i class="material-icons mdc-text-field__icon">visibility</i></td>
+                                            <td>{ticket.status === STATUS.PENDING ? (<span className="badge badge-warning">{ticket.status}</span>) : (<span className="badge badge-primary">{ticket.status}</span>) }</td>
+                                            <td onClick={() => visibilityClick(ticket._id)}><i class="material-icons mdc-text-field__icon" >visibility</i></td>
                                         </tr>
                                     ))
                                 ) : (null)
@@ -74,4 +106,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AdminPool);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(AdminPool));

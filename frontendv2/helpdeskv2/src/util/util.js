@@ -20,3 +20,10 @@ export const verifyToken = () => {
     // use bacrypt to compare the token with the one on the frontend 
     // if the token is verified return true else return false
 }
+
+export const STATUS = {
+    PENDING: "PENDING",
+    CLOSED:'CLOSED',
+    ELEVATED: "ELEVATED",
+    UNRESOLVED: "UNRESOLVED"
+}
