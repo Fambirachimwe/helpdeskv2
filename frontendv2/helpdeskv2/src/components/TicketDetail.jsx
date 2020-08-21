@@ -8,6 +8,7 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import { STATUS } from '../util/util';
 
 const useStyles = makeStyles({
     root: {
@@ -49,7 +50,9 @@ const TicketDetail = ({ tickets, user }) => {
                 <Typography variant="body2" component="p">
                     {}
                 <br />
-                <span className="badge badge-warning">{tickets ? tickets.status : null }</span>
+                {tickets.status === STATUS.PENDING ? (<span className="badge badge-warning">{tickets.status}</span>) : (<span className="badge badge-primary">{tickets.status}</span>) }
+
+                
                 </Typography>
             </CardContent>
             
@@ -61,7 +64,7 @@ const mapStateToProps = (state, ownProps) => {
     const ticketId = ownProps.match.params.id;
     return {
         ...state,
-        tickets: state.tickets.find(ticket => ticket._id === ticketId)
+        tickets: state.userReducer.tickets.find(ticket => ticket._id === ticketId)
 
     }
 }

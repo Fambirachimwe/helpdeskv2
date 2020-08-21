@@ -1,7 +1,10 @@
 import {persistReducer} from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
+import { combineReducers } from 'redux';
 
-const initState = {
+
+
+const userInitState = {
     isAuth : false,
     tickets: [],
     user: null,
@@ -9,62 +12,131 @@ const initState = {
 }
 
 
+const adminInitState = {
+    isAuth: false,
+    tickets: [],
+    users: [],
+    admin: null
+}
+
 
 const persistConfig = {
     key: "root",
     storage,
-    whitelist: ['rootReducer']
+    whitelist: ['userReducer', 'adminReducer']
 }
 
-const rootReducer = (state=initState, action) => {
+const userReducer = (state=userInitState, action) => {
 
-    if(action.type === 'LOGGED_IN'){
-        return {
-            ...state,
-            isAuth: action.isAuth, 
-            user: action.user
-        }
-    }
 
-    if(action.type === 'LOGOUT'){
-        return {
-            ...state,
-            isAuth: action.isAuth
-        }
-    }
+    switch (action.type) {
+        case "USER_LOGGED_IN":
+            
+            return {
+                ...state,
+                isAuth: action.isAuth, 
+                user: action.user
+            }
 
-    if(action.type === 'GET_USER_TICKETS'){
-        return {
-            ...state,
-            tickets: action.tickets
-        }
-    }
+        case "LOGOUT": 
+            return {
+                ...state,
+                isAuth: action.isAuth
+            }
+
+        case "USER_GET_USER_TICKETS": 
+            return {
+                ...state,
+                tickets: action.tickets
+            }
+        
+        case "GET_USERS":
+            return {
+                ...state,
+                users: action.users
+           }
+
+        case "USER_UPDATE_STATE":
+            if(state.tickets === undefined){
+                return {
+                    ...state,
+                    tickets: [action.ticket]
+                }
+            }
+            else {
+                return {
+                    ...state,
+                    tickets: [...state.tickets, action.ticket]
+                }
+            }
+
+            
+
     
-    if(action.type === "GET_USERS"){
-        return {
-             ...state,
-             users: action.users
-        }
+        default:
+            return state
     }
 
 
-    if(action.type === 'UPDATE_STATE'){
-        // console.log(state.tickets)
-        if(state.tickets === undefined){
-            return {
-                ...state,
-                tickets: [action.ticket]
-            }
-        }
-        else {
-            return {
-                ...state,
-                tickets: [...state.tickets, action.ticket]
-            }
-        }
-    }
 
 };
+
+const adminReducer = (state=adminInitState, action) => {
+
+    switch (action.type) {
+        case "ADMIN_LOGGED_IN":
+            return {
+                ...state,
+                isAuth: action.isAuth,
+                admin: action.user,
+            }
+            
+        case "LOGOUT": 
+            return {
+                ...state,
+                isAuth: action.isAuth
+            }
+
+        case "ADMIN_GET_All_TICKETS":
+            return {
+                ...state,
+                tickets: action.tickets
+            }
+
+        case "ADMIN_UPDATE_STATE":
+                if(state.tickets === undefined){
+                    return {
+                        ...state,
+                        tickets: [action.ticket]
+                    }
+                }
+                else {
+                    return {
+                        ...state,
+                        tickets: [...action.ticket]
+                    }
+                }
+
+            
+    
+        default:
+            return state
+    }
+
+
+
+
+    
+}
+
+
+const rootReducer = combineReducers({
+    userReducer,
+    adminReducer
+});
+
+
+
 export const pReducer = persistReducer(persistConfig ,rootReducer);
 
 

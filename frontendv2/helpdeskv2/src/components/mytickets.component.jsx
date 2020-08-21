@@ -1,9 +1,39 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {connect} from 'react-redux';
 import {Link } from 'react-router-dom';
 
-const MyTickets = ({tickets}) => (
-    <div>
+import socketIOClient from "socket.io-client";
+import axios from 'axios';
+import { getToken, STATUS } from '../util/util';
+
+
+
+const endpoint = "http://127.0.0.1:4000";
+const socket = socketIOClient(endpoint);
+
+
+
+
+const MyTickets = ({ userReducer : {tickets}, getTickets}) => {
+
+    // emit an event to update the mytickets of the user logged in 
+    const config = {
+        headers: {
+          "X-Auth-Token": getToken()
+        }
+      }
+    useEffect(() => {
+        socket.on("update_mytickets_table", () => {
+            axios.get("http://127.0.0.1:4000/app/mytickets", config).then(data => {
+                    getTickets(data.data.tickets);
+            });
+        });
+    },
+    [])
+
+    
+    return (
+        <div>
         <div className="mdc-card p-0">
             <h6 className="card-title card-padding pb-0">My Tickets</h6>
             <div className="table-responsive">
@@ -26,7 +56,7 @@ const MyTickets = ({tickets}) => (
                                     <td className="text-left"> <Link to={`/${ticket._id}`}>{ticket._id}</Link></td>
                                     <td className="text-left">{ticket.title}</td>
                                     <td>{ticket.priority}</td>
-                                    <td><span className="badge badge-warning">{ticket.status}</span></td>    
+                                    <td>{ticket.status === STATUS.PENDING ? (<span className="badge badge-warning">{ticket.status}</span>) : (<span className="badge badge-primary">{ticket.status}</span>) }</td>    
                                 </tr>
                             ))
                             ) : (null)
@@ -38,7 +68,9 @@ const MyTickets = ({tickets}) => (
             </div>
         </div>
     </div>
-);
+    )
+};
+
 
 const mapStateToProps = (state) => {
     return {
@@ -46,4 +78,13 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps)(MyTickets);
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+      getTickets: (data) => { dispatch ({ type: "USER_GET_USER_TICKETS", tickets: data})},
+     
+    }
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(MyTickets);

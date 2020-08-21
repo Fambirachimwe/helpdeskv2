@@ -11,18 +11,10 @@ const socket = socketIOClient(endpoint);
 
 
 
-const AdminPool = ({ tickets, getTickets, history }) => {
+const AdminPool = ({ adminReducer: {tickets}, getTickets, history, updateState }) => {
 
 
     const visibilityClick = (ticketId) => {
-        // change the status of the thicket if not opened 
-        // update to the database .. send api request to the backend to change the status
-    
-        // after the update to the database emit an event using socket io to dispatch the ne update to the store
-    
-        // redirect to the detail page of the ticket 
-        
-        
         const ticket = tickets.find(ticket => ticket._id === ticketId);
         if(ticket.status === STATUS.PENDING){
             const token = getToken();
@@ -36,20 +28,24 @@ const AdminPool = ({ tickets, getTickets, history }) => {
                 // console.log(data)
                 socket.emit("update", token);
 
-                // history.push(`/admin/${ticketId}`)
-            })
-        } else {
-            // history.push(`/admin/${ticketId}`)
-        }       
+                
+            });
+
+        } 
+        
+        history.push(`/admin/${ticketId}`);
+        
+        
     }
 
 
-    socket.on('test', (dt) => {
-        console.log(dt)
-    });
+    // socket.on('test', (dt) => {
+    //     console.log(dt)
+    // });
 
     socket.on("update_confirm", (dt) => {
         getTickets(dt);  // dipatch the new state to the store
+        updateState(dt);
         // console.log('update confirm')
     })
 
@@ -66,7 +62,6 @@ const AdminPool = ({ tickets, getTickets, history }) => {
                                 <th >Prority (g)</th>
                                 <th>Status</th>
                                 <th>Actions</th>
-
                             </tr>
                         </thead>
                         <tbody>
@@ -79,7 +74,7 @@ const AdminPool = ({ tickets, getTickets, history }) => {
                                             <td className="text-left">{ticket.title}</td>
                                             <td>{ticket.priority}</td>
                                             <td>{ticket.status === STATUS.PENDING ? (<span className="badge badge-warning">{ticket.status}</span>) : (<span className="badge badge-primary">{ticket.status}</span>) }</td>
-                                            <td onClick={() => visibilityClick(ticket._id)}><i class="material-icons mdc-text-field__icon" >visibility</i></td>
+                                            <td onClick={() => visibilityClick(ticket._id)}><i className="material-icons mdc-text-field__icon" >visibility</i></td>
                                         </tr>
                                     ))
                                 ) : (null)
@@ -102,8 +97,11 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        getTickets: (data) => { dispatch({ type: "GET_USER_TICKETS", tickets: data }) }
+        getTickets: (data) => { dispatch({ type: "ADMIN_GET_ALL_TICKETS", tickets: data }) },
+        updateState : (data) => {dispatch ({type: "ADMIN_UPDATE_STATE", ticket: data})}
     }
 }
+
+
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(AdminPool));

@@ -18,7 +18,7 @@ class AppRoute extends React.Component {
           }
       
           // getting tickets of the logged in user 
-          axios.get("http://127.0.0.1:4000/app/mytickets", config).then(data => {
+        axios.get("http://127.0.0.1:4000/app/mytickets", config).then(data => {
             this.props.getTickets(data.data.tickets);
         });
     }
@@ -59,7 +59,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-      getTickets: (data) => { dispatch ({ type: "GET_USER_TICKETS", tickets: data})},
+      getTickets: (data) => { dispatch ({ type: "USER_GET_USER_TICKETS", tickets: data})},
      
     }
 }

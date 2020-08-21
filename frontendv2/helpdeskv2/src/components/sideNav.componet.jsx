@@ -1,119 +1,130 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link, NavLink, withRouter } from 'react-router-dom';
-import { handleLogOut } from '../util/util';
+import { handleLogOut, getToken } from '../util/util';
 import { connect } from 'react-redux';
+import axios from 'axios';
 
 const styles = {
     "text-decoration": "none",
     "color": "#fff"
 }
 
-const SideNav = ({ history, user, isAuth }) => (
+const SideNav = ({ history, adminReducer: { admin }, userReducer: { user } }) => {
 
-    <aside className="mdc-drawer mdc-drawer--dismissible mdc-drawer--open">
-        <div className="mdc-drawer__header">
-            <Link to="/" className="brand-logo" style={styles}>
-                <h3>Doves Helpdesk </h3>
-            </Link>
-        </div>
-        <div className="mdc-drawer__content">
-            <div className="user-info">
+    let USER;
 
-                <p className="name">{user ? (user.username) : (null)}</p>
-                <p className="email">{user ? (user.email) : (null)}</p>
+    if (admin) {
+        USER = admin;
+
+    } else {
+        USER = user;
+    }
+
+    return (
+
+        <aside className="mdc-drawer mdc-drawer--dismissible mdc-drawer--open">
+            <div className="mdc-drawer__header">
+                <Link to="/" className="brand-logo" style={styles}>
+                    <h3>Doves Helpdesk </h3>
+                </Link>
             </div>
+            <div className="mdc-drawer__content">
+                <div className="user-info">
 
-            <div className="mdc-list-group">
+                    <p className="name">{USER ? (USER.username) : (null)}</p>
+                    <p className="email">{USER ? (USER.email) : (null)}</p>
+                </div>
 
-                <nav className="mdc-list mdc-drawer-menu">
+                <div className="mdc-list-group">
 
-                    {
-                        user ? user.role === "User" ? (
-                            <div>
-                                <div className="mdc-list-item mdc-drawer-item">
-                                    <NavLink className="mdc-drawer-link" to="/">
-                                        <i className="material-icons mdc-list-item__start-detail mdc-drawer-item-icon">home</i>
-                                            Dashboard
-                                        </NavLink>
-                                </div>
+                    <nav className="mdc-list mdc-drawer-menu">
 
-                                <div className="mdc-list-item mdc-drawer-item">
-                                    <NavLink className="mdc-drawer-link" to="/add">
-                                        <i className="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true" > track_changes</i>
-                                            Add Ticket
-                                        </NavLink>
-                                </div>
-
-                                <div className="mdc-list-item mdc-drawer-item">
-                                    <Link className="mdc-expansion-panel-link" to="/" data-toggle="expansionPanel" data-target="ui-sub-menu" >
-                                        <i className="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true" > dashboard </i>
-                                            Knowledge
-                                        </Link>
-                                </div>
-
-                            </div>
-
-                        ) : (
+                        {
+                            USER ? USER.role === "User" ? (
                                 <div>
                                     <div className="mdc-list-item mdc-drawer-item">
                                         <NavLink className="mdc-drawer-link" to="/">
                                             <i className="material-icons mdc-list-item__start-detail mdc-drawer-item-icon">home</i>
-                                        Dashboard
+                                            Dashboard
                                         </NavLink>
                                     </div>
 
                                     <div className="mdc-list-item mdc-drawer-item">
-                                        <NavLink className="mdc-drawer-link" to="/tickets">
+                                        <NavLink className="mdc-drawer-link" to="/add">
                                             <i className="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true" > track_changes</i>
-                                                Tickets
+                                            Add Ticket
                                         </NavLink>
                                     </div>
 
                                     <div className="mdc-list-item mdc-drawer-item">
-                                        <NavLink className="mdc-expansion-panel-link" to="users" data-toggle="expansionPanel" data-target="ui-sub-menu" >
-                                            <i className="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">dashboard</i>
-                                            Users
-                                        </NavLink>
-                                    </div>
-
-                                    <div className="mdc-list-item mdc-drawer-item">
-                                        <NavLink className="mdc-drawer-link" to="/roles">
-                                            <i className="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true" > track_changes</i>
-                                            Manage Roles
-                                        </NavLink>
-                                    </div>
-
-                                    <div className="mdc-list-item mdc-drawer-item">
-                                        <NavLink className="mdc-drawer-link" to="/settings">
-                                            <i className="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">track_changes</i>
-                                            Settings
-                                        </NavLink>
+                                        <Link className="mdc-expansion-panel-link" to="/" data-toggle="expansionPanel" data-target="ui-sub-menu" >
+                                            <i className="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true" > dashboard </i>
+                                            Knowledge
+                                        </Link>
                                     </div>
 
                                 </div>
-                            )
+
+                            ) : (
+                                    <div>
+                                        <div className="mdc-list-item mdc-drawer-item">
+                                            <NavLink className="mdc-drawer-link" to="/admin">
+                                                <i className="material-icons mdc-list-item__start-detail mdc-drawer-item-icon">home</i>
+                                        Dashboard
+                                        </NavLink>
+                                        </div>
+
+                                        <div className="mdc-list-item mdc-drawer-item">
+                                            <NavLink className="mdc-drawer-link" to="/tickets">
+                                                <i className="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true" > track_changes</i>
+                                                Tickets
+                                        </NavLink>
+                                        </div>
+
+                                        <div className="mdc-list-item mdc-drawer-item">
+                                            <NavLink className="mdc-expansion-panel-link" to="users" data-toggle="expansionPanel" data-target="ui-sub-menu" >
+                                                <i className="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">dashboard</i>
+                                            Users
+                                        </NavLink>
+                                        </div>
+
+                                        <div className="mdc-list-item mdc-drawer-item">
+                                            <NavLink className="mdc-drawer-link" to="/roles">
+                                                <i className="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true" > track_changes</i>
+                                            Manage Roles
+                                        </NavLink>
+                                        </div>
+
+                                        <div className="mdc-list-item mdc-drawer-item">
+                                            <NavLink className="mdc-drawer-link" to="/settings">
+                                                <i className="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">track_changes</i>
+                                            Settings
+                                        </NavLink>
+                                        </div>
+
+                                    </div>
+                                )
 
 
-                            : (null)}
+                                : (null)}
 
 
-                    {/* */}
-                </nav>
+                        {/* */}
+                    </nav>
+                </div>
+
+
+
+                <div className="profile-actions">
+                    <Link to="#">Settings</Link>
+                    <span className="divider"></span>
+                    <Link to="#" onClick={() => { handleLogOut(); history.push('/login') }}>Logout</Link>
+                </div>
             </div>
+        </aside>
 
-
-
-            <div className="profile-actions">
-                <Link to="#">Settings</Link>
-                <span className="divider"></span>
-                <Link to="#" onClick={() => { handleLogOut(); history.push('/login') }}>Logout</Link>
-            </div>
-        </div>
-    </aside>
-
-);
-
-
+    );
+}
 
 
 const mapStatetoProps = (state) => {
@@ -121,7 +132,6 @@ const mapStatetoProps = (state) => {
         ...state
     }
 }
-
 
 
 export default connect(mapStatetoProps)(withRouter(SideNav));

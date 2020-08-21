@@ -5,14 +5,26 @@ import {connect} from 'react-redux';
 
 
 
-const TopHeader = ({click, handleClick, user}) => (
+const TopHeader = ({click, handleClick, adminReducer : {admin}, userReducer: {user}}) => {
+
+    let USER;
+
+    if(admin){
+        USER = admin;
+        
+    } else {
+        USER = user;
+        
+    }
+
+    return (
     <header className="mdc-top-app-bar">
         <div className="mdc-top-app-bar__row">
             <div className="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
                 <button className="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button sidebar-toggler">
                     menu
                       </button>
-            <span className="mdc-top-app-bar__title">Greetings {user ? (user.username) : (null)}!</span>
+            <span className="mdc-top-app-bar__title">Greetings {USER ? (USER.username) : (null)}!</span>
                 <div className="mdc-text-field mdc-text-field--outlined mdc-text-field--with-leading-icon search-text-field d-none d-md-flex">
                     <i className="material-icons mdc-text-field__icon">search</i>
                     <input
@@ -255,7 +267,8 @@ const TopHeader = ({click, handleClick, user}) => (
             </div>
         </div>
     </header>
-);
+    )
+};
 
 const mapStateToProps = (state)  => {
     return {

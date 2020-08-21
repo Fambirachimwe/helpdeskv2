@@ -2,7 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 
-const AdminCards = ({ tickets, users }) => (
+const AdminCards = ({ adminReducer: {tickets, users} }) => (
+    
     <div className="mdc-layout-grid__inner">
         <div className="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop mdc-layout-grid__cell--span-4-tablet">
             <div className="mdc-card info-card info-card--success">

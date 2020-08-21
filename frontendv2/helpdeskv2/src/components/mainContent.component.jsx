@@ -11,11 +11,23 @@ import AdminCards from "./AdminCards.component";
 
 
 
-const MainContent = ({ user, tickets, users }) => (
+const MainContent = ({ adminReducer : {admin}, userReducer: {user} }) =>{
+
+    let USER;
+
+    if(admin){
+        USER = admin;
+        
+    } else {
+        USER = user;
+        
+    }
+    
+    return (
     <main className="content-wrapper">
 
         {
-            user ? user.role === "User" ? (
+            USER ? USER.role === "User" ? (
                 <Switch>
                     <Route exact path='/' component={MyTickets} />
                     <Route exact path='/add' component={AddTicket} />
@@ -51,7 +63,8 @@ const MainContent = ({ user, tickets, users }) => (
         }
 
     </main>
-);
+    )
+};
 
 const mapStateToProps = (state) => {
     return {

@@ -24,18 +24,20 @@ const LoginPage = (props) => {
         event.preventDefault();
         axios.post('http://127.0.0.1:4000/user/login', { username, password }).then(data => {
             if(data.data) {
-                console.log(data.data.user);
+                // console.log(data.data.user);
 
                 // dispatch user to the redux state
 
                 const locaStorage = window.localStorage;
                 locaStorage.setItem('token', data.data.token);
                
-                props.isAuth(data.data.user);  // dispatching action  to redux state a
+                
 
                 if(data.data.role === 'User'){
+                  props.UserIsAuth(data.data.user);  // dispatching action  to redux state a
                     props.history.push('/');
                 } else {
+                  props.AdminIsAuth(data.data.user);  // dispatching action  to redux state a
                     props.history.push('/admin')
                 }
                 
@@ -128,7 +130,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-      isAuth: (user) => {dispatch({type: "LOGGED_IN", isAuth: true, user: user})}
+      UserIsAuth: (user) => {dispatch({type: "USER_LOGGED_IN", isAuth: true, user: user})},
+
+      AdminIsAuth : (admin) => {dispatch({type: "ADMIN_LOGGED_IN", isAuth: true, user: admin})}
     }
 }
 
