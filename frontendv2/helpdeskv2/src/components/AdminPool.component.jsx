@@ -5,6 +5,8 @@ import {STATUS, getToken} from "../util/util"
 // socket io client 
 import socketIOClient from "socket.io-client";
 import axios from 'axios';
+import FlipMove from 'react-flip-move';
+
 
 const endpoint = "http://127.0.0.1:4000";
 const socket = socketIOClient(endpoint);
@@ -54,6 +56,8 @@ const AdminPool = ({ adminReducer: {tickets}, getTickets, history, updateState }
             <div className="mdc-card p-0">
                 <h6 className="card-title card-padding pb-0">All Tickets</h6>
                 <div className="table-responsive">
+
+                    <FlipMove>
                     <table className="table table-hoverable">
                         <thead>
                             <tr>
@@ -83,6 +87,7 @@ const AdminPool = ({ adminReducer: {tickets}, getTickets, history, updateState }
 
                         </tbody>
                     </table>
+                    </FlipMove>
                 </div>
             </div>
         </div>

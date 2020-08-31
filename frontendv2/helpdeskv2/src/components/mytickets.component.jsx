@@ -6,6 +6,9 @@ import socketIOClient from "socket.io-client";
 import axios from 'axios';
 import { getToken, STATUS } from '../util/util';
 
+import FlipMove from 'react-flip-move';
+
+
 
 
 const endpoint = "http://127.0.0.1:4000";
@@ -37,6 +40,7 @@ const MyTickets = ({ userReducer : {tickets}, getTickets}) => {
         <div className="mdc-card p-0">
             <h6 className="card-title card-padding pb-0">My Tickets</h6>
             <div className="table-responsive">
+                <FlipMove>
                 <table className="table table-hoverable">
                     <thead>
                         <tr>
@@ -48,8 +52,17 @@ const MyTickets = ({ userReducer : {tickets}, getTickets}) => {
                         </tr>
                     </thead>
                     <tbody>
+
+                        {/* <FlipMove></FlipMove> */}
+                        
                         {
+                            
                             tickets !== undefined ? (
+
+                            // insert flip move here 
+
+                            // <FlipMove></FlipMove>
+                            
                             tickets.map(ticket => (
 
                                 <tr key={ticket._id}>
@@ -65,6 +78,7 @@ const MyTickets = ({ userReducer : {tickets}, getTickets}) => {
 
                     </tbody>
                 </table>
+                </FlipMove>
             </div>
         </div>
     </div>

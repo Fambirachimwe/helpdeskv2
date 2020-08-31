@@ -1,0 +1,15 @@
+.image_attachment{
+    width: 100px;
+    height: 100px;
+
+}
+
+.image_attachment img {
+    width: inherit;
+    height: inherit;
+    cursor: pointer;
+}
+
+/* .image_attachment img:hover{
+    background-color: red;
+} */
